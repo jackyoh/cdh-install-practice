@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", name: "clean yum cache", inline: "yum clean all"
   
-  config.vm.provision "shell", name: "install cloudera key", inline: "rpm --import https://10.1.3.232/cloudera/RPM-GPG-KEY-cloudera"
+  config.vm.provision "shell", name: "install cloudera key", inline: "rpm --import http://10.1.3.232/cloudera/RPM-GPG-KEY-cloudera"
 
   config.vm.provision "shell", name: "install cdh daemon", inline: "yum install -y cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server cloudera-manager-server-db-2"
 
@@ -26,5 +26,6 @@ Vagrant.configure("2") do |config|
  
   config.vm.provision "shell", name: "firewalld disable", inline: "systemctl disable firewalld"  
 
+  config.vm.provision "shell", name: "selinux disable", inline: "s/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
 end
