@@ -26,6 +26,12 @@ Vagrant.configure("2") do |config|
  
   config.vm.provision "shell", name: "firewalld disable", inline: "systemctl disable firewalld"  
 
-  config.vm.provision "shell", name: "selinux disable", inline: "s/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+  config.vm.provision "shell", name: "selinux disable", inline: "sed -i -e 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux"
+
+  config.vm.provision "shell", name: "setenforce", inline: "setenforce 0"
+
+  config.vm.provision "shell", name: "start cloudera server db", inline: "systemctl start cloudera-scm-server-db"
+
+  config.vm.provision "shell", name: "start cloudera server", inline: "systemctl start cloudera-scm-server"
 
 end
