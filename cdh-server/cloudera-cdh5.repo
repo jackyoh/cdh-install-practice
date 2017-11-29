@@ -1,0 +1,4 @@
+[cloudera-cdh5]
+name=Cloudera's Distribution for Hadoop, Version 5
+baseurl=http://10.1.3.232/cloudera
+gpgcheck=1
