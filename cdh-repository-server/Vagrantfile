@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "http://file-server/sharefolder/ohara/baseimage/CentOS7.3-BaseVM.box"
+  config.vm.hostname = "cloudera-repository-server"
+  config.ssh.username = "root"
+  config.ssh.password = "vagrant"
+
+  config.vm.network "public_network",ip: "10.1.3.232",netmask: "255.0.0.0", bridge: "enp3s0"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+    vb.cpus=2
+  end
+
+  config.vm.provision "shell", name: "install http server", inline: "yum install -y httpd createrepo"
+  config.vm.provision "shell", name: "download cloudera", inline: "bash /vagrant/download-rpm.sh"
+  config.vm.provision "shell", name: "start httpd server", inline: "systemctl start httpd"
+  config.vm.provision "shell", name: "httpd enable", inline: "systemctl enable httpd"
+  config.vm.provision "shell", name: "firewalld false", inline: "systemctl stop firewalld"
+  config.vm.provision "shell", name: "firewalld disable", inline: "systemctl disable firewalld"
+end
